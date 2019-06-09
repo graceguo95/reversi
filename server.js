@@ -612,7 +612,7 @@ io.sockets.on('connection', function (socket) {
 					}
 
 					var color = payload.color;
-					if((typeof color === 'undefined') || !color || (color != 'pink' && color != 'purple')){
+					if((typeof color === 'undefined') || !color || (color != 'cat' && color != 'robot')){
 						var error_message = 'play token didn\'t specify a valid color, command aborted';
 						log(error_message);
 						socket.emit('play_token_response', {
@@ -633,6 +633,31 @@ io.sockets.on('connection', function (socket) {
 						return;
 			}
 
+			// If current attempt at playing a token is out of turn then error //
+			if(color !== game.whose_turn){
+				var error_message = 'play_token message played out of turn';
+				log(error_message);
+				socket.emit('play_token_response', {
+																								result: 'fail',
+																								message: error_message
+																						});
+					return;
+			}
+
+			// If the wrong socket is playing the color //
+			if(
+				((game.whose_turn === 'cat') && (game.player_cat.socket != socket.id)) ||
+				((game.whose_turn === 'robot') && (game.player_robot.socket != socket.id))){
+				var error_message = 'play_token turn played by wrong player ';
+				log(error_message);
+				socket.emit('play_token_response', {
+																								result: 'fail',
+																								message: error_message
+																						});
+					return;
+			}
+
+
 			var success_data = {
 				result: 'success'
 				};
@@ -640,13 +665,17 @@ io.sockets.on('connection', function (socket) {
 			socket.emit('play_token_response', success_data);
 
 			// Execute the move //
-			if(color == 'pink'){
+			if(color == 'cat'){
 				game.board[row][column] = 'c';
-				game.whose_turn = 'purple';
+				flip_board('c',row,column,game.board);
+				game.whose_turn = 'robot';
+				game.legal_moves = calculate_valid_moves('r',game.board);
 			}
-			else if(color == 'purple'){
+			else if(color == 'robot'){
 				game.board[row][column] = 'r';
-				game.whose_turn = 'pink';
+				flip_board('r',row,column,game.board);
+				game.whose_turn = 'cat';
+				game.legal_moves = calculate_valid_moves('c',game.board);
 			}
 
 			var d = new Date();
@@ -675,7 +704,7 @@ function create_new_game(){
 	var d = new Date();
 	new_game.last_move_time = d.getTime();
 
-	new_game.whose_turn = 'cat';
+	new_game.whose_turn = 'robot';
 
 	new_game.board = [  [' ',' ',' ',' ',' ',' ',' ',' '],
 											[' ',' ',' ',' ',' ',' ',' ',' '],
@@ -686,8 +715,127 @@ function create_new_game(){
 											[' ',' ',' ',' ',' ',' ',' ',' '],
 											[' ',' ',' ',' ',' ',' ',' ',' '],
 										];
-
+  new_game.legal_moves = calculate_valid_moves('r',new_game.board);
 	return new_game;
+}
+
+function check_line_match(who,dr,dc,r,c,board){
+	if(board[r][c] === who){
+		return true;
+	}
+	if(board[r][c] === ' '){
+		return false;
+	}
+	if( (r+dr < 0) || (r+dr > 7) ){
+		return false;
+	}
+	if( (c+dc < 0) || (c+dc > 7) ){
+		return false;
+	}
+	return check_line_match(who,dr,dc,r+dr,c+dc,board);
+}
+
+//Check is position at r,c containst he opposite of 'who' on the old_board//
+function valid_move(who,dr,dc,r,c,board){
+	var other;
+	if(who === 'r'){
+		other = 'c';
+	}
+	else if(who === 'c'){
+		other = 'r';
+	}
+	else{
+		log('Color problem: '+who);
+		return false;
+	}
+	if( (r+dr < 0) || (r+dr > 7) ){
+		return false;
+	}
+	if( (c+dc < 0) || (c+dc > 7) ){
+		return false;
+	}
+	if(board[r+dr][c+dc] != other){
+		return false;
+	}
+	if( (r+dr+dr < 0) || (r+dr+dr > 7) ){
+		return false;
+	}
+
+	if( (c+dc+dc < 0) || (c+dc+dc > 7) ){
+		return false;
+	}
+	return check_line_match(who,dr,dc,r+dr+dr,c+dc+dc,board);
+
+}
+
+function calculate_valid_moves(who,board){
+	var valid = [  [' ',' ',' ',' ',' ',' ',' ',' '],
+								 [' ',' ',' ',' ',' ',' ',' ',' '],
+								 [' ',' ',' ',' ',' ',' ',' ',' '],
+								 [' ',' ',' ',' ',' ',' ',' ',' '],
+								 [' ',' ',' ',' ',' ',' ',' ',' '],
+								 [' ',' ',' ',' ',' ',' ',' ',' '],
+								 [' ',' ',' ',' ',' ',' ',' ',' '],
+								 [' ',' ',' ',' ',' ',' ',' ',' '],
+							];
+	for(var row = 0; row < 8; row++){
+		for(var column = 0; column < 8; column++){
+			if(board[row][column] === ' '){
+				nw = valid_move(who,-1,-1,row,column,board);
+				nn = valid_move(who,-1,0,row,column,board);
+				ne = valid_move(who,-1,1,row,column,board);
+
+				ww = valid_move(who,0,-1,row,column,board);
+				ee = valid_move(who,0,1,row,column,board);
+
+			  sw = valid_move(who,1,-1,row,column,board);
+				ss = valid_move(who,1,0,row,column,board);
+				se = valid_move(who,1,1,row,column,board);
+
+				if( nw || nn || ne || ww || ee || sw || ss || se){
+					valid[row][column] = who;
+				}
+			}
+    }
+	}
+	return valid;
+}
+
+function flip_line(who,dr,dc,r,c,board){
+	if( (r+dr < 0) || (r+dr > 7) ){
+		return false;
+	}
+	if( (c+dc < 0) || (c+dc > 7) ){
+		return false;
+	}
+	if(board[r+dr][c+dc] === ' '){
+		return false;
+	}
+	if(board[r+dr][c+dc] === who){
+		return true;
+	}
+	else{
+		if(flip_line(who,dr,dc,r+dr,c+dc,board)){
+			board[r+dr][c+dc] = who;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+}
+
+function flip_board(who,row,column,board){
+	flip_line(who,-1,-1,row,column,board);
+	flip_line(who,-1,0,row,column,board);
+	flip_line(who,-1,1,row,column,board);
+
+	flip_line(who,0,-1,row,column,board);
+	flip_line(who,0,1,row,column,board);
+
+	flip_line(who,1,-1,row,column,board);
+	flip_line(who,1,0,row,column,board);
+	flip_line(who,1,1,row,column,board);
 }
 
 function send_game_update(socket, game_id, message){
@@ -761,20 +909,38 @@ function send_game_update(socket, game_id, message){
 
 	var row,column;
 	var count = 0;
+	var robot  = 0;
+	var cat = 0;
 	for(row = 0; row < 8; row++){
 		for(column = 0; column < 8; column++){
-			if(games[game_id].board[row][column] != ' '){
+			if(games[game_id].legal_moves[row][column] != ' '){
 				count++;
+			}
+			if(games[game_id].legal_moves[row][column] === 'r'){
+				robot++;
+			}
+			if(games[game_id].legal_moves[row][column] === 'c'){
+				cat++;
 			}
 		}
 	}
 
-	if(count == 64){
+	if(count == 0){
 		/* Send a game over message */
+		var winner = ''
+		if(robot > cat){
+			winner = 'robot';
+		}
+		if(cat > robot){
+			winner = 'cat';
+		}
+		if(robot == cat){
+			winner = 'everyone';
+		}
 		var success_data = {
 													result: 'success',
 													game: games[game_id],
-													who_won: 'everyone',
+													who_won: winner,
 													game_id: game_id
 												};
 		io.in(game_id).emit('game_over', success_data);
