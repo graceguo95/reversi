@@ -916,10 +916,10 @@ function send_game_update(socket, game_id, message){
 			if(games[game_id].legal_moves[row][column] != ' '){
 				count++;
 			}
-			if(games[game_id].legal_moves[row][column] === 'r'){
+			if(games[game_id].board[row][column] === 'r'){
 				robot++;
 			}
-			if(games[game_id].legal_moves[row][column] === 'c'){
+			if(games[game_id].board[row][column] === 'c'){
 				cat++;
 			}
 		}
@@ -927,15 +927,12 @@ function send_game_update(socket, game_id, message){
 
 	if(count == 0){
 		/* Send a game over message */
-		var winner = ''
+		var winner = 'everyone'
 		if(robot > cat){
 			winner = 'robot';
 		}
 		if(cat > robot){
 			winner = 'cat';
-		}
-		if(robot == cat){
-			winner = 'everyone';
 		}
 		var success_data = {
 													result: 'success',
