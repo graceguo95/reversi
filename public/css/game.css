@@ -1,3 +1,5 @@
+<link href='https://fonts.googleapis.com/css?family=css?family=Nunito:400,700|PT+Sans|Slabo+27px|Homemade+Apple' rel='stylesheet'>
+
 body {
   background-color: #FAFAFA;
 }
@@ -19,6 +21,12 @@ table#game_board td{
 #messages p{
   margin:0px;
 }
+
+td.hovered_over:hover {
+  background:url('../assets/images/hover.gif');
+  background-size: 100% 100%;
+}
+
 
 h1 {
   font-family: 'PT Sans', serif;
