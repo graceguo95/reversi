@@ -13,20 +13,31 @@
     <title>Reversi</title>
   </head>
   <body>
+    <div class="row">
+      <div class="col">
+        <a href="index.html" target="_blank" class="btn back">Back to Home</a>
+      </div>
+      <div class="col text-right">
+        <a href="https://en.wikipedia.org/wiki/Reversi" target="_blank" class="btn back">Rules</a>
+      </div>
+    </div>
+  </div>
     <div class='container-fluid text-center'>
       <div class='row'>
         <div class='offset-2 col text-center'>
           <h3 id='my_color'></h3>
         </div>
+
         <div class='col-2'>
-          <div id='quit'></div>
+          <div></div>
         </div>
       </div>
-      <div class='row'>
-        <div class='col'>
+
+      <div class='row h-100'>
+        <div class='col score my-auto'>
           <span class='align-middle' id='pinksum'></span>
-          <img src='assets/images/empty_to_pink.gif' alt='cat score'/>
-          <img src='assets/images/empty_to_purple.gif' alt='robot score'/>
+          <img src='assets/images/cat.svg' alt='cat score' style="width:64px;height:64px;"/>
+          <img src='assets/images/robot.svg' alt='robot score' style="width:64px;height:64px;"/>
           <span class='align-middle' id='purplesum'></span>
         </div>
       </div>
@@ -37,7 +48,7 @@
 
       <div class='row'>
         <div class='col'>
-          <table id='game_board'>
+          <table id='game_board' style="margin-top:2%;">
             <tr>
               <td id='0_0'></td>
               <td id='0_1'></td>
@@ -125,19 +136,19 @@
 
 
       <div class='row'>
-        <div class='col text-left'>
-          <h3>Messages</h3>
+        <div class='col text-center'>
+          <h3 style="margin-top:3%;">Messages</h3>
           <form class='form-inline' onsubmit='send_message(); return false;'>
               <label for='send_message_holder' class='col-form-label sr-only'>Enter your chat message</label>
               <input class='form-control mx-auto w-75' type='text' value='' id='send_message_holder' placeholder='Enter your chat message'/>
-              <button type='submit' class='btn btn-default btn-primary'>Send</button>
+              <button type='submit' class='btn goButton'>Send</button>
           </form>
         </div>
       </div>
 
       <div class='row'>
         <div class='col text-left'>
-          <div id='messages'>
+          <div style='margin-left: 10%;' id='messages'>
           </div>
         </div>
       </div>

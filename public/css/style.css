@@ -1,0 +1,181 @@
+<link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700|VT323&display=swap" rel="stylesheet">
+
+        h1 {
+          font-family: 'VT323', serif;
+          margin-top: auto;
+          color: #black;
+          font-size: 200%;
+          text-transform: uppercase;
+        }
+
+        h2 {
+          font-family: 'VT323', serif;
+          font-size: 180%;
+          margin-bottom: 3%;
+          text-transform: uppercase;
+        }
+
+        h3 {
+          font-family: 'VT323', serif;
+          font-size: 170%;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        h4 {
+          font-family: 'Space Mono', serif;
+          font-size: 100%;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+
+        .rowstyle {
+        text-align: center;
+        margin-left: 5%;
+        }
+
+        p {
+          font-family: 'Space Mono', serif;
+          font-size: 100%;
+          margin-top: 1%;
+          margin-left: 5%;
+          color: #E1E8FF;
+        }
+
+        #header_row {
+          background-color: #476FE8;
+          font-family: 'VT323', serif;
+          font-size: 250%;
+
+        }
+
+        .nav_links {
+          background-color:transparent;
+          color: white;
+          font-family: 'VT323', serif;
+          font-size: 140%;
+        }
+
+        .top_resize {
+          margin-top: 10%;
+          margin-left: 3%;
+          margin-right: 3%;
+        }
+
+        .top_resize2 {
+          margin-top: 5%;
+        }
+
+        .back {
+          background-color:transparent;
+          color: white;
+          margin-left: 1%;
+          font-family: 'VT323', serif;
+          font-size: 140%;
+        }
+
+        .img_resize {
+          height: 100%;
+          width: 100%;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom:2%;
+
+        }
+
+        .img_name_resize {
+          height: 90%;
+          width: 90%;
+          margin-left: 5%;
+          display: block;
+        }
+
+        body {
+          background-color: #476FE8;
+          font-family: 'VT323', serif;
+        }
+
+
+        .myButton {
+          background-color:#71ffa5;
+          border-radius:39px;
+          font-family:Space Mono;
+          font-size:24px;
+          font-weight:bold;
+          padding:8px 31px;
+          margin-bottom: 2%;
+          margin-top: 2%;
+        }
+        .myButton:hover {
+          background-color:#1eca5d;
+        }
+        .myButton:active {
+          position:relative;
+          top:1px;
+        }
+
+        .inviteButton {
+          background-color:#FFD771;
+          border-radius:39px;
+          font-family:Space Mono;
+          font-size:16px;
+          font-weight:bold;
+          padding:6px 20px;
+          margin-bottom: 2%;
+
+        }
+        .inviteButton:hover {
+          background-color:#F0B110;
+        }
+        .inviteButton:active {
+          position:relative;
+          top:1px;
+        }
+
+        .invitedButton {
+          background-color:#F0B110;
+          border-radius:39px;
+          font-family:Space Mono;
+          font-size:16px;
+          font-weight:bold;
+          padding:6px 20px;
+          margin-bottom: 2%;
+        }
+
+        .playButton {
+          background-color:#71ffa5;
+          border-radius:39px;
+          font-family:Space Mono;
+          font-size:16px;
+          font-weight:bold;
+          padding:6px 20px;
+          margin-bottom: 2%;
+          margin-top: auto;
+        }
+
+        .goButton {
+          background-color:transparent;
+          font-family:'Space Mono';
+          font-size:20px;
+          font-weight:bold;
+          color:white;
+
+        }
+
+        input[type=text], select, textarea {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+          border: 1px solid #ccc;
+          border-radius: 39px;
+          resize: vertical;
+          font-family: 'Space Mono';
+          font-size:20px;
+          font-weight:bold;
+          color:white;
+          text-transform: uppercase;
+
+    }

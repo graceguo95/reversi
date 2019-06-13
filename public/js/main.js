@@ -48,6 +48,7 @@ socket.on('join_room_response',function(payload){
     return;
   }
 
+
   // If someone joined, then add a new row to the lobby table //
   var dom_elements = $('.socket_'+payload.socket_id);
 
@@ -56,7 +57,7 @@ socket.on('join_room_response',function(payload){
     var nodeA = $('<div></div>');
     nodeA.addClass('socket_'+payload.socket_id);
 
-    var nodeB = $('<div></div');
+    var nodeB = $('<div></div>');
     nodeB.addClass('socket_'+payload.socket_id);
 
     var nodeC = $('<div></div>');
@@ -64,10 +65,10 @@ socket.on('join_room_response',function(payload){
 
     nodeA.addClass('w-100');
 
-    nodeB.addClass('col-9 text-right');
-    nodeB.append('<h4>'+payload.username+'</h4>');
+    nodeB.addClass('col-6 text-right');
+    nodeB.append('<h3>'+payload.username+'</h3>');
 
-    nodeC.addClass('cold-3 text-left');
+    nodeC.addClass('col-6 text-left');
     var buttonC = makeInviteButton(payload.socket_id);
     nodeC.append(buttonC);
 
@@ -79,6 +80,7 @@ socket.on('join_room_response',function(payload){
     nodeB.slideDown(1000);
     nodeC.slideDown(1000);
   }
+
   else{
     uninvite(payload.socket_id);
     var buttonC = makeInviteButton(payload.socket_id);
@@ -93,6 +95,8 @@ socket.on('join_room_response',function(payload){
   newNode.hide();
   $('#messages').prepend(newNode);
   newNode.slideDown(1000);
+  newNode.delay(15000);
+  newNode.fadeOut(1900);
 });
 
 function send_message(){
@@ -115,6 +119,8 @@ socket.on('send_message_response',function(payload){
   newNode.hide();
   $('#messages').prepend(newNode);
   newNode.slideDown(1000);
+  newNode.delay(15000);
+  newNode.fadeOut(1900);
 });
 
 
@@ -146,6 +152,8 @@ socket.on('player_disconnected',function(payload){
   newNode.hide();
   $('#messages').prepend(newNode);
   newNode.slideDown(1000);
+  newNode.delay(15000);
+  newNode.fadeOut(1900);
 });
 
 //////////////
@@ -233,7 +241,7 @@ socket.on('game_start_response',function(payload){
 
 
 function makeInviteButton(socket_id){
-  var newHTML = '<button type=\'button\' class=\'btn btn-outline-primary\'>Invite</button>';
+  var newHTML = '<button type=\'button\' class=\'btn inviteButton\'>Invite</button>';
   var newNode = $(newHTML);
   newNode.click(function(){
     invite(socket_id);
@@ -242,7 +250,7 @@ function makeInviteButton(socket_id){
 }
 
 function makeInvitedButton(socket_id){
-  var newHTML = '<button type=\'button\' class=\'btn btn-primary\'>Invited</button>';
+  var newHTML = '<button type=\'button\' class=\'btn invitedButton\'>Invited</button>';
   var newNode = $(newHTML);
   newNode.click(function(){
     uninvite(socket_id);
@@ -251,7 +259,7 @@ function makeInvitedButton(socket_id){
 }
 
 function makePlayButton(socket_id){
-  var newHTML = '<button type=\'button\' class=\'btn btn-success\'>Play</button>';
+  var newHTML = '<button type=\'button\' class=\'btn playButton\'>Play</button>';
   var newNode = $(newHTML);
   newNode.click(function(){
     game_start(socket_id);
@@ -260,7 +268,7 @@ function makePlayButton(socket_id){
 }
 
 function makeEngagedButton(){
-  var newHTML = '<button type=\'button\' class=\'btn btn-danger\'>Engaged</button>';
+  var newHTML = '<button type=\'button\' class=\'btn playButton\'>Engaged</button>';
   var newNode = $(newHTML);
   return(newNode);
 }
@@ -276,6 +284,7 @@ $(function(){
   $('#quit').append('<a href="lobby.html?username='+username+'"class="btn btn-danger btn-default active" role="button" aria-pressed="true">Quit</a>');
 
 });
+
 
 var old_board = [
                   ['?','?','?','?','?','?','?','?'],
@@ -321,8 +330,27 @@ socket.on('game_update',function(payload){
     return;
   }
 
+  var myTurn = ' ';
+
+  if(my_color == 'cat' && payload.game.whose_turn == 'cat'){
+    myTurn = 'my';
+  }
+  else if(my_color == 'robot' && payload.game.whose_turn == 'robot'){
+    myTurn = 'my';
+  }
+  else if(my_color == 'cat' && payload.game.whose_turn == 'robot'){
+    myTurn = 'robot\'s';
+  }
+  else if(my_color == 'robot' && payload.game.whose_turn == 'cat'){
+    myTurn = 'cat\'s';
+  }
+  else{
+    console.log('Turn naming error');
+  }
+
+
   $('#my_color').html('<h3 id="my_color">I am '+my_color+'</h3>');
-  $('#my_color').append('<h4>It is '+payload.game.whose_turn+'\'s turn. Elapsed time <span id="elapsed"></span></h4>');
+  $('#my_color').append('<h4>'+myTurn+' turn [<span id="elapsed"></span>]</h4>');
 
   clearInterval(interval_timer);
   interval_timer = setInterval(function(last_time){
@@ -358,32 +386,32 @@ socket.on('game_update',function(payload){
       /* if a board space has changed */
       if(old_board[row][column] != board[row][column]){
         if(old_board[row][column] == '?' && board[row][column] == ' '){
-          $('#'+row+'_'+column).html('<img src="assets/images/empty.gif" alt="empty square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/empty.gif" alt="empty square" style="z-index:-1;position:relative;"/>');
           console.log('This is an empty square');
         }
         else if(old_board[row][column] == '?' && board[row][column] == 'c'){
-          $('#'+row+'_'+column).html('<img src="assets/images/empty_to_pink.gif" alt="pink square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/cat.svg" class="fade-in" style="width:64px;height:64px;background-color:#FAFAFA;" alt="pink square"/>');
         }
         else if(old_board[row][column] == '?' && board[row][column] == 'r'){
-          $('#'+row+'_'+column).html('<img src="assets/images/empty_to_purple.gif" alt="purple square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/robot.svg" class="fade-in" style="width:64px;height:64px;background-color:#FAFAFA;" alt="purple square"/>');
         }
         else if(old_board[row][column] == ' ' && board[row][column] == 'c'){
-          $('#'+row+'_'+column).html('<img src="assets/images/empty_to_pink.gif" alt="pink square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/cat.svg" class="fade-in" style="width:64px;height:64px;background-color:#FAFAFA;" alt="pink square"/>');
         }
         else if(old_board[row][column] == ' ' && board[row][column] == 'r'){
-          $('#'+row+'_'+column).html('<img src="assets/images/empty_to_purple.gif" alt="purple square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/robot.svg" class="fade-in" style="width:64px;height:64px;background-color:#FAFAFA;" alt="purple square"/>');
         }
         else if(old_board[row][column] == 'c' && board[row][column] == ' '){
-          $('#'+row+'_'+column).html('<img src="assets/images/pink_to_empty.gif" alt="empty square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/empty.gif" class="flip-out-hor-top" alt="empty square" style="z-index:-1;position:relative;"/>');
         }
         else if(old_board[row][column] == 'r' && board[row][column] == ' '){
-          $('#'+row+'_'+column).html('<img src="assets/images/purple_to_empty.gif" alt="empty square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/empty.gif" alt="empty square style="z-index:-1;position:relative;"/>');
         }
         else if(old_board[row][column] == 'c' && board[row][column] == 'r'){
-          $('#'+row+'_'+column).html('<img src="assets/images/pink_to_purple.gif" alt="purple square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/robot.svg" class="flip-horizontal-bottom" style="width:64px;height:64px;background-color:#FAFAFA;" alt="purple square"/>');
         }
         else if(old_board[row][column] == 'r' && board[row][column] == 'c'){
-          $('#'+row+'_'+column).html('<img src="assets/images/purple_to_pink.gif" alt="pink square"/>');
+          $('#'+row+'_'+column).html('<img src="assets/images/cat.svg" class="flip-horizontal-bottom" style="width:64px;height:64px;background-color:#FAFAFA;" alt="pink square"/>');
         }
         else{
           $('#'+row+'_'+column).html('<img src="assets/images/error.gif" alt="error"/>');

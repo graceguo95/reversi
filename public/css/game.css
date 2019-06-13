@@ -1,52 +1,279 @@
-<link href='https://fonts.googleapis.com/css?family=css?family=Nunito:400,700|PT+Sans|Slabo+27px|Homemade+Apple' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700|VT323&display=swap" rel="stylesheet">
 
-body {
-  background-color: #FAFAFA;
-}
+        h1 {
+          font-family: 'VT323', serif;
+          margin-top: auto;
+          color: black;
+          font-size: 200%;
+          text-transform: uppercase;
+        }
 
-table#game_board{
-  margin: auto;
-  border-style: solid;
-  border-width: 10px;
-  border-color: rgb(100,100,100);
-}
+        h2 {
+          font-family: 'VT323', serif;
+          font-size: 180%;
+          margin-bottom: 3%;
+          text-transform: uppercase;
+        }
 
-table#game_board td{
-  padding:5px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: rgb(50,50,50);
-}
+        h3 {
+          font-family: 'VT323', serif;
+          font-size: 170%;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
 
-#messages p{
-  margin:0px;
-}
+        h4 {
+          font-family: 'VT323', serif;
+          font-size: 100%;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
 
-td.hovered_over:hover {
-  background:url('../assets/images/hover.gif');
-  background-size: 100% 100%;
-}
+        .score {
+          font-family: 'VT323', serif;
+          font-size: 220%;
+          font-weight: bold;
+          color: black;
+          text-transform: uppercase;
+        }
+
+        body {
+          background-color: #476FE8;
+        }
+
+        p {
+          font-family: 'Space Mono', serif;
+          font-size: 100%;
+          margin-top: 1%;
+          margin-left: 10%;
+          color: #E1E8FF;
+        }
+
+        .back {
+          background-color:transparent;
+          color: white;
+          margin-left: 1%;
+          font-family: 'VT323', serif;
+          font-size: 140%;
+        }
+
+        .nav_links {
+          background-color:transparent;
+          color: white;
+          font-family: 'VT323', serif;
+          font-size: 140%;
+        }
+
+        .goButton {
+          background-color:transparent;
+          font-family:Space Mono;
+          font-size:20px;
+          font-weight:bold;
+          color:white;
+
+        }
+
+        input[type=text], select, textarea {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+          border: 1px solid #ccc;
+          border-radius: 39px;
+          resize: vertical;
+          font-family: 'Space Mono';
+          font-size:20px;
+          font-weight:bold;
+          color:white;
+          text-transform: uppercase;
+
+    }
+
+        td.hovered_over:hover {
+          background:url('../assets/images/hover.gif');
+          background-size: 100% 100%;
+          z-index:10;
+          -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+                  animation: heartbeat 1.5s ease-in-out infinite both;
+        }
+
+        table#game_board{
+          background-image:url('../assets/images/empty.gif');
+          margin: auto;
+          border-style: solid;
+          border-width: 5px;
+          border-color: #202020;
+        }
+
+        table#game_board td{
+          padding:3px;
+          border-style: solid;
+          border-width: 2px;
+          border-color: lightgrey;
+        }
+
+        #messages p{
+          margin:0px;
+        }
+
+        /* ******** Animations *********  */
 
 
-h1 {
-  font-family: 'PT Sans', serif;
-  font-size: 400%;
-  font-weight: 700;
-  margin-top: 3%;
-  margin-bottom: 3%;
-  letter-spacing: 0.1em;
-  color: #34322D;
-}
+        .flip-horizontal-bottom {
+        	-webkit-animation: flip-horizontal-bottom 0.7s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+        	        animation: flip-horizontal-bottom 0.7s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+        }
 
+        .heartbeat {
+        	-webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+        	        animation: heartbeat 1.5s ease-in-out infinite both;
+        }
 
-h2 {
-  font-family: 'Slabo 27px', serif;
-  font-size: 170%;
-  margin-bottom: 3%;
-}
+        .flip-out-hor-top {
+        	-webkit-animation: flip-out-hor-top 0.45s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        	        animation: flip-out-hor-top 0.45s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        }
 
-p {
-  font-family: 'Slabo 27px', serif;
-  font-size: 120%;
-  margin-top: 2%;
-}
+        .fade-in {
+        	-webkit-animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        	        animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        }
+
+        @-webkit-keyframes flip-horizontal-bottom {
+          0% {
+            background-image: url('../assets/images/cat.svg');
+            -webkit-transform: rotateX(-180deg);
+                    transform: rotateX(-180deg);
+                      opacity: 0;
+          }
+          100% {
+            background-image: url('../assets/images/robot.svg');
+            -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+                      opacity: 1;
+          }
+        }
+        @keyframes flip-horizontal-bottom {
+          0% {
+            -webkit-transform: rotateX(-180deg);
+                    transform: rotateX(-180deg);
+                      opacity: 0;
+          }
+          100% {
+            -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+                    opacity: 1;
+          }
+
+        }
+
+        @-webkit-keyframes heartbeat {
+          from {
+            -webkit-transform: scale(1);
+                    transform: scale(1);
+            -webkit-transform-origin: center center;
+                    transform-origin: center center;
+            -webkit-animation-timing-function: ease-out;
+                    animation-timing-function: ease-out;
+          }
+          10% {
+            -webkit-transform: scale(0.91);
+                    transform: scale(0.91);
+            -webkit-animation-timing-function: ease-in;
+                    animation-timing-function: ease-in;
+          }
+          17% {
+            -webkit-transform: scale(0.98);
+                    transform: scale(0.98);
+            -webkit-animation-timing-function: ease-out;
+                    animation-timing-function: ease-out;
+          }
+          33% {
+            -webkit-transform: scale(0.87);
+                    transform: scale(0.87);
+            -webkit-animation-timing-function: ease-in;
+                    animation-timing-function: ease-in;
+          }
+          45% {
+            -webkit-transform: scale(1);
+                    transform: scale(1);
+            -webkit-animation-timing-function: ease-out;
+                    animation-timing-function: ease-out;
+          }
+        }
+        @keyframes heartbeat {
+          from {
+            -webkit-transform: scale(1);
+                    transform: scale(1);
+            -webkit-transform-origin: center center;
+                    transform-origin: center center;
+            -webkit-animation-timing-function: ease-out;
+                    animation-timing-function: ease-out;
+          }
+          10% {
+            -webkit-transform: scale(0.91);
+                    transform: scale(0.91);
+            -webkit-animation-timing-function: ease-in;
+                    animation-timing-function: ease-in;
+          }
+          17% {
+            -webkit-transform: scale(0.98);
+                    transform: scale(0.98);
+            -webkit-animation-timing-function: ease-out;
+                    animation-timing-function: ease-out;
+          }
+          33% {
+            -webkit-transform: scale(0.87);
+                    transform: scale(0.87);
+            -webkit-animation-timing-function: ease-in;
+                    animation-timing-function: ease-in;
+          }
+          45% {
+            -webkit-transform: scale(1);
+                    transform: scale(1);
+            -webkit-animation-timing-function: ease-out;
+                    animation-timing-function: ease-out;
+          }
+        }
+
+        @-webkit-keyframes flip-out-hor-top {
+          0% {
+            -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+            opacity: 1;
+          }
+          100% {
+            -webkit-transform: rotateX(70deg);
+                    transform: rotateX(70deg);
+            opacity: 0;
+          }
+        }
+        @keyframes flip-out-hor-top {
+          0% {
+            -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+            opacity: 1;
+          }
+          100% {
+            -webkit-transform: rotateX(70deg);
+                    transform: rotateX(70deg);
+            opacity: 0;
+          }
+        }
+
+        @-webkit-keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
