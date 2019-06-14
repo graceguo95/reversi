@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Space+Mono:400,700|VT323&display=swap');
 
         h1 {
-          font-family: 'VT323', serif;
+          font-family: 'VT323', monospace;
           margin-top: auto;
           color: #black;
           font-size: 200%;
@@ -9,21 +9,21 @@
         }
 
         h2 {
-          font-family: 'VT323', serif;
+          font-family: 'VT323', monospace;
           font-size: 180%;
           margin-bottom: 3%;
           text-transform: uppercase;
         }
 
         h3 {
-          font-family: 'VT323', serif;
+          font-family: 'VT323', monospace;
           font-size: 170%;
           font-weight: bold;
           text-transform: uppercase;
         }
 
         h4 {
-          font-family: 'Space Mono', serif;
+          font-family: 'Space Mono', monospace;
           font-size: 100%;
           font-weight: bold;
           text-transform: uppercase;
@@ -36,7 +36,7 @@
         }
 
         p {
-          font-family: 'Space Mono', serif;
+          font-family: 'Space Mono', monospace;
           font-size: 100%;
           margin-top: 1%;
           margin-left: 5%;
